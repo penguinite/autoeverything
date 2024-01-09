@@ -1,6 +1,6 @@
 {.define: ssl.}
 
-import std/[httpclient, streams, os]
+import std/[httpclient, os, strutils]
 
 const packages_lists* = @[
   "https://raw.githubusercontent.com/nim-lang/packages/master/packages.json",
@@ -10,26 +10,27 @@ const packages_lists* = @[
 proc basicDownload(url: string): string =
   let client = newHttpClient()
   try:
-    let response = client.get(url)
-
-    if response[].status != "200":
+    result = client.getContent(url)
+    if result.isEmptyOrWhitespace():
       return ""
-
-    return response[].bodyStream.readAll()
+    return result
   except:
     return ""
   finally:
     client.close()
 
-proc getPkgList*(): string =
-  if fileExists("packages.json"):
-    return readFile("packages.json")
-
+proc downloadPkgList*(): string =
   for url in packages_lists:
     result = basicDownload(url)
     if result != "":
       break
   
+  return result
+
+proc getPkgList*(): string =
+  if fileExists("packages.json"):
+    return readFile("packages.json")
+  result = downloadPkgList()
   return result
 
 proc savePkgList*(): bool {.discardable.} =

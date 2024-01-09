@@ -8,7 +8,10 @@ srcDir        = "src"
 bin           = @["autoeverything"]
 binDir      = "build"
 
+switch("d","nimOldCaseObjects")
+
 # Dependencies
 
 requires "nim >= 2.0.0"
 requires "iniplus >= 0.1.0"
+requires "weave >= 0.4.0"
