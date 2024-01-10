@@ -3,6 +3,7 @@ nimblecache/
 htmldocs/
 *.json
 logs/
+deps/
 
 # Block built binaries
 build
