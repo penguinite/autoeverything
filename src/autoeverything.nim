@@ -18,7 +18,7 @@ proc processPkg*(pkg: string) =
   return
 
 echo "autoeverything v", version
-echo "Copyright (c) systemonia 2024"
+echo "Copyright (c) penguinite 2024"
 info "Starting up the automatron"
 
 proc isNimbleDirEmpty*(): bool =

@@ -1,7 +1,7 @@
 # Package
 
 version       = "0.1.0"
-author        = "systemonia"
+author        = "penguinite"
 description   = "Every nimble package ever... Now in one convenient automated package!"
 license       = "CC0"
 srcDir        = "src"
