@@ -4,6 +4,7 @@ htmldocs/
 *.json
 logs/
 deps/
+exceptions/
 
 # Block built binaries
 build
