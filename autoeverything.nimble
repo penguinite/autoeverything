@@ -8,8 +8,6 @@ srcDir        = "src"
 bin           = @["autoeverything"]
 binDir      = "build"
 
-switch("d","nimOldCaseObjects")
-
 # Dependencies
 
 requires "nim >= 2.0.0"

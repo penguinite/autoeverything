@@ -1,0 +1,13 @@
+:root {
+    --bgColor: #F9EFAD;
+    --linkColor: #F99C10;
+    --txtColor: #112F27;
+    --borderColor: #86B789;
+    --casualFonts: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', system-ui, sans-serif;
+}
+
+body {
+    background-color: var(--bgColor);
+    color: var(--txtColor);
+    font-family: var(--casualFonts);
+}
