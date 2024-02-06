@@ -1,8 +1,8 @@
 :root {
-    --bgColor: #F9EFAD;
-    --linkColor: #F99C10;
-    --txtColor: #112F27;
-    --borderColor: #86B789;
+    --bgColor: #e8d4f3;
+    --linkColor: #E16141;
+    --txtColor: #313534;
+    --borderColor: #2c3d00;
     --casualFonts: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', system-ui, sans-serif;
 }
 
@@ -11,3 +11,47 @@ body {
     color: var(--txtColor);
     font-family: var(--casualFonts);
 }
+
+header, main, footer {
+    max-width: 68vw;
+    margin:auto;
+    padding: 1rem;
+}
+
+a {
+    text-decoration: none;
+    color: var(--linkColor);
+    transition: 0.2s color, background-color;
+    border-radius: 0.3rem;
+    padding: 0.1rem;    
+}
+
+a:hover {
+    color: var(--bgColor);
+    background-color: var(--linkColor);
+}
+
+header {
+    text-align: center;
+}
+
+header span {
+    margin-left: 1.2rem;
+}
+
+header a {
+    margin: 0 0.5rem 0 0.5rem;
+    font-size: 1.5rem;
+}
+
+main { font-size: 1.3rem; }
+
+/* box */
+.box {
+    width: 100%;
+    border: 2px solid var(--borderColor);
+    border-radius: 2rem;
+    padding:1rem;
+}
+
+.box p:nth-child(1) { margin-top:0; }

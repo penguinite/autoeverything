@@ -8,16 +8,18 @@
     </head>
     <body>
         <header>
-            <h1>nci</h1>
-            <nav>
-                <a href="#">Home</a>
-                <a href="#">Overview</a>
-                <a href="#">FAQ</a>
-                <a href="#">Source</a>
-            </nav>
+            <h1>$title$<span><a href="/">Home</a><a href="/logs/">Overview</a><a href="/about/">FAQ</a><a href="https://github.com/penguinite/autoeverything.git">Source</a></span></h1>
         </header>
         <main>
-
+            <h2>What is this?</h2>
+            <p>This is a server running <a href="https://github.com/penguinite/autoeverything/">autoeverything</a>, it is currently installing every package ever in order to find faulty packages.</p>
+            <div class="box">
+                <p>Currently installing: <code>$app$</code></p>
+                <a href="/logs/$app$/latest/">Detailed view</a>
+                <a href="/logs/$app$/">Previous runs</a>
+                <a href="/source/$app$/">Source</a>
+                <a href="/site/$app$/">Homepage</a>
+            </div>
         </main>
         <footer>
             
