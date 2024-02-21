@@ -1,4 +1,4 @@
-import autoeverything/[download, common, log]
+import autoeverything/[download, common, log, output]
 import std/[json, os, osproc, strutils]
 
 when defined(windows):
@@ -12,15 +12,15 @@ proc logPkg*(failed: bool, name: string, log: string)  =
 
 proc processPkg*(pkg: string) =
   for kind, path in walkDir(getHomeDir() & ".nimble/pkgs2/"):
+    # Check if pkg already exists, if so then delete it.
     if kind != pcDir: continue
     if split(path[len(getHomeDir() & ".nimble/pkgs2/")..^1],"-")[0] == pkg:
       removeDir(path)
   try:
-    let output = execProcess("nimble -y install " & pkg)
-    if "Failed" in output or "failed" in output:
-      logInstallFail(config.logsDir, pkg, output)
-    else:
-      logInstallSuccess(config.logsDir, pkg, output)
+    let output = parseNimbleOutput(execProcess("nimble -y install " & pkg), pkg)
+    case output.kind:
+    of Failure, HostError: logInstallFail(config.logsDir, pkg, output)
+    of Success: logInstallSuccess(config.logsDir, pkg, output)
   except CatchableError as err:
     logException(config.exceptionsDir, pkg, err.msg)
   return

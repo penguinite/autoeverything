@@ -1,4 +1,4 @@
-import common
+import common, output
 import std/[os, times, json]
 
 proc makeFile*(dirname, pkgname, ext: string, time: DateTime): string =
@@ -27,7 +27,7 @@ proc makeJSONFile*(dirname: string, pkgname: string, time: DateTime): string = r
 proc makeLogFile*(dirname: string, pkgname: string, time: DateTime): string = return makeFile(dirname, pkgname, ".log", time)
 proc makeExceptionLogFile*(dirname: string, pkgname: string, time: DateTime): string = return makeFile(dirname, pkgname, "-exception.log", time)
 
-proc logException*(dirname, pkgname, msg: string, time: DateTime = now()) =
+proc logException*(dirname, pkgname, msg: string) =
   info "Writing system exception for package ", pkgname
   let
     jsonname = makeJSONFile(dirname, pkgname, time)
@@ -39,27 +39,26 @@ proc logException*(dirname, pkgname, msg: string, time: DateTime = now()) =
 
   try:
     writeFile(logname, msg)
-    writeFile(jsonname, $(%*[{"kind": "exception","pkg": pkgname,"time": $time,"log": logname}]))
+    writeFile(jsonname, toString(Exception, newOutputForException(pkg)))
   except CatchableError as err:
     info "Couldn't save log files: ", err.msg
 
-proc logInstall*(dirname, pkgname, output: string, success: bool, time: DateTime = now()) =
-  var tmp = "failed"
-  if success: tmp = "success"
-  info "Writing ", tmp, " install log for package: ", pkgname
+proc logInstall*(dirname: string, output: Output, success: string) =
+  info "Writing install log for package ", output.package, " (", success ,")"
+
   let
-    jsonname = makeJSONFile(dirname, pkgname, time)
-    logname = makeLogFile(dirname, pkgname, time)
+    jsonname = makeJSONFile(dirname, output.package, output.date)
+    logname = makeLogFile(dirname, output.package, output.date)
   
   if jsonname == "" or logname == "":
     info "Showstopping error has occured, quitting so someone can fix it."
     quit(1)
 
   try:
-    writeFile(logname, output)
-    writeFile(jsonname, $(%*[{"kind":"install","pkg":pkgname,"time": $time,"success":success,"log":logname}]))
+    writeFile(logname, output.output)
+    writeFile(jsonname, $output)
   except CatchableError as err:
     info "Couldn't save log files: ", err.msg
 
-proc logInstallFail*(dirname, pkgname, output: string, time: DateTime = now()) = logInstall(dirname, pkgname, output, false, time)
-proc logInstallSuccess*(dirname, pkgname, output: string, time: DateTime = now()) = logInstall(dirname, pkgname, output, true, time)
+proc logInstallFail*(dirname: string, output: Output) = logInstall(dirname, output, "Success")
+proc logInstallSuccess*(dirname: string, output: Output) = logInstall(dirname, output, "Fail")
